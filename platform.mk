@@ -2,6 +2,12 @@
 WSLENV ?= no
 ifeq ($(WSLENV),no)
   NOWINE = 0
+  # Officially-documented method of checking for MSYS2
+  # https://www.msys2.org/wiki/Porting/#detecting-version-of-msys-from-gnu-make
+  msys_version := $(if $(findstring Msys, $(shell uname -o)),$(word 1, $(subst ., ,$(shell uname -r))),0)
+  ifneq ($msys_version,0)
+    NOWINE = 1
+  endif
 else
   # As of build 17063, WSLENV is defined in both WSL1 and WSL2
   # so we need to use the kernel release to detect between

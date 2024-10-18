@@ -3,7 +3,7 @@
 #include "fileExtract.h"
 #include "stringUtils.h"
 
-#if defined _MSC_VER
+#if defined(_MSC_VER) || defined(__MSYS__)
 #include <direct.h>
 
 #define MakeDirectory(path) mkdir(path)

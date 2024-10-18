@@ -45,7 +45,7 @@ HEADER_TEMPLATE := $(buildname)/rom_header_template.sbin
 MAKEFLAGS += --no-print-directory
 
 all:
-	$(MAKE) tools
+	$(MAKE) tools msys_version=$(msys_version)
 	$(MAKE) patch_mwasmarm
 	$(MAKE) $(ROM)
 

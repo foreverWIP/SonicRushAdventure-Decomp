@@ -191,21 +191,19 @@ patch_mwasmarm:
 
 ifeq ($(NODEP),)
 
-ifneq ($(WINPATH),)
-PROJECT_ROOT_NT := $(shell $(WINPATH) -w $(PROJECT_ROOT) | $(SED) 's/\\/\//g')
 define fixdep
-$(SED) -i 's/\r//g; s/\\/\//g; s/\/$$/\\/g; s#$(PROJECT_ROOT_NT)#$(PROJECT_ROOT)#g' $(1)
+$(SED) -i 's/\r//g; s/\\/\//g; s/\/$$/\\/g; s#$(PROJECT_ROOT)#$(PROJECT_ROOT)#g' $(1)
 touch -r $(1:%.d=%.o) $(1)
 endef
 
-else
+#else
 
-define fixdep
-$(SED) -i 's/\r//g; s/\\/\//g; s/\/$$/\\/g' $(1)
-touch -r $(1:%.d=%.o) $(1)
-endef
+#define fixdep
+#$(SED) -i 's/\r//g; s/\\/\//g; s/\/$$/\\/g' $(1)
+#touch -r $(1:%.d=%.o) $(1)
+#endef
 
-endif
+#endif
 DEPFLAGS := -gccdep -MD
 DEPFILES := $(ALL_OBJS:%.o=%.d)
 MW_COMPILE += $(DEPFLAGS)
@@ -279,10 +277,9 @@ else
 endif
 
 RESPONSE_TEMPLATE    := $(PROJECT_ROOT)/mwldarm.response.template
-RESPONSE_TEMPLATE_NT := $(PROJECT_ROOT_NT)/mwldarm.response.template
 
 $(RESPONSE): $(LSF) $(RESPONSE_TEMPLATE)
-	$(WINE) $(MAKELCF) $(MAKELCF_FLAGS) $< $(RESPONSE_TEMPLATE_NT) $@
+	$(WINE) $(MAKELCF) $(MAKELCF_FLAGS) $< $(RESPONSE_TEMPLATE) $@
 
 .INTERMEDIATE: $(BUILD_DIR)/obj.list
 
